@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		688F86B426B55EB000DF60C5 /* MoyaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86B326B55EB000DF60C5 /* MoyaService.swift */; };
-		688F86B626B56F1500DF60C5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86B526B56F1500DF60C5 /* User.swift */; };
+		688F86B626B56F1500DF60C5 /* JsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86B526B56F1500DF60C5 /* JsonModel.swift */; };
 		688F86B926B575FB00DF60C5 /* ApiWorking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86B826B575FB00DF60C5 /* ApiWorking.swift */; };
 		688F86BC26B5854400DF60C5 /* ViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86BB26B5854400DF60C5 /* ViewExtention.swift */; };
-		688F86C026B5F94700DF60C5 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86BF26B5F94700DF60C5 /* Button.swift */; };
+		688F86C426B6D1A000DF60C5 /* MyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86C326B6D19F00DF60C5 /* MyImageView.swift */; };
+		688F86C626B6E92F00DF60C5 /* MyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86C526B6E92F00DF60C5 /* MyPickerView.swift */; };
 		68D8034C26B4360600B25455 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D8034B26B4360600B25455 /* AppDelegate.swift */; };
 		68D8035026B4360600B25455 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D8034F26B4360600B25455 /* ViewController.swift */; };
 		68D8035526B4360A00B25455 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68D8035426B4360A00B25455 /* Assets.xcassets */; };
@@ -22,10 +23,11 @@
 /* Begin PBXFileReference section */
 		02682F2ADAB31BF3BD5F84E0 /* Pods_Pryaniky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pryaniky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		688F86B326B55EB000DF60C5 /* MoyaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaService.swift; sourceTree = "<group>"; };
-		688F86B526B56F1500DF60C5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		688F86B526B56F1500DF60C5 /* JsonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModel.swift; sourceTree = "<group>"; };
 		688F86B826B575FB00DF60C5 /* ApiWorking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiWorking.swift; sourceTree = "<group>"; };
 		688F86BB26B5854400DF60C5 /* ViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtention.swift; sourceTree = "<group>"; };
-		688F86BF26B5F94700DF60C5 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		688F86C326B6D19F00DF60C5 /* MyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageView.swift; sourceTree = "<group>"; };
+		688F86C526B6E92F00DF60C5 /* MyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPickerView.swift; sourceTree = "<group>"; };
 		68D8034826B4360600B25455 /* Pryaniky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pryaniky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68D8034B26B4360600B25455 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68D8034F26B4360600B25455 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -69,7 +71,7 @@
 		688F86BA26B5771500DF60C5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				688F86B526B56F1500DF60C5 /* User.swift */,
+				688F86B526B56F1500DF60C5 /* JsonModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -77,10 +79,19 @@
 		688F86C126B5FBC600DF60C5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				688F86BF26B5F94700DF60C5 /* Button.swift */,
 				688F86BB26B5854400DF60C5 /* ViewExtention.swift */,
+				688F86C326B6D19F00DF60C5 /* MyImageView.swift */,
+				688F86C526B6E92F00DF60C5 /* MyPickerView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		688F86C226B6C0E500DF60C5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				68D8034F26B4360600B25455 /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		68D8033F26B4360600B25455 = {
@@ -105,7 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				68D8034B26B4360600B25455 /* AppDelegate.swift */,
-				68D8034F26B4360600B25455 /* ViewController.swift */,
+				688F86C226B6C0E500DF60C5 /* Controller */,
 				688F86C126B5FBC600DF60C5 /* View */,
 				688F86B726B575B700DF60C5 /* Networking */,
 				688F86BA26B5771500DF60C5 /* Models */,
@@ -238,9 +249,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				688F86B926B575FB00DF60C5 /* ApiWorking.swift in Sources */,
-				688F86C026B5F94700DF60C5 /* Button.swift in Sources */,
-				688F86B626B56F1500DF60C5 /* User.swift in Sources */,
+				688F86C426B6D1A000DF60C5 /* MyImageView.swift in Sources */,
+				688F86B626B56F1500DF60C5 /* JsonModel.swift in Sources */,
 				68D8035026B4360600B25455 /* ViewController.swift in Sources */,
+				688F86C626B6E92F00DF60C5 /* MyPickerView.swift in Sources */,
 				688F86BC26B5854400DF60C5 /* ViewExtention.swift in Sources */,
 				688F86B426B55EB000DF60C5 /* MoyaService.swift in Sources */,
 				68D8034C26B4360600B25455 /* AppDelegate.swift in Sources */,

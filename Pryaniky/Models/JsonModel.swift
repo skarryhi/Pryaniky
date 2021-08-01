@@ -24,7 +24,7 @@ struct Block: Decodable {
     let data: Information
 }
 
-struct User: Decodable {
+struct JsonModel: Decodable {
     let data: [Block]
     let view: [String]
 }
