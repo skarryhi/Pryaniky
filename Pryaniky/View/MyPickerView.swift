@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class MyPickerView: UIPickerView {
-    var variants = [String]()
-    var selectedId = 0
+    var variants = [(Int, String)]()
+    var selectedId: Int?
+    var sectionName: String?
 }

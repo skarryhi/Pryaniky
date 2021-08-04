@@ -13,6 +13,8 @@
 		688F86BC26B5854400DF60C5 /* ViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86BB26B5854400DF60C5 /* ViewExtention.swift */; };
 		688F86C426B6D1A000DF60C5 /* MyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86C326B6D19F00DF60C5 /* MyImageView.swift */; };
 		688F86C626B6E92F00DF60C5 /* MyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F86C526B6E92F00DF60C5 /* MyPickerView.swift */; };
+		68B76E3626BA8E1400FB058A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B76E3526BA8E1400FB058A /* TableViewCell.swift */; };
+		68B76E3A26BB10FF00FB058A /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B76E3926BB10FF00FB058A /* MyLabel.swift */; };
 		68D8034C26B4360600B25455 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D8034B26B4360600B25455 /* AppDelegate.swift */; };
 		68D8035026B4360600B25455 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D8034F26B4360600B25455 /* ViewController.swift */; };
 		68D8035526B4360A00B25455 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68D8035426B4360A00B25455 /* Assets.xcassets */; };
@@ -28,6 +30,8 @@
 		688F86BB26B5854400DF60C5 /* ViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtention.swift; sourceTree = "<group>"; };
 		688F86C326B6D19F00DF60C5 /* MyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageView.swift; sourceTree = "<group>"; };
 		688F86C526B6E92F00DF60C5 /* MyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPickerView.swift; sourceTree = "<group>"; };
+		68B76E3526BA8E1400FB058A /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		68B76E3926BB10FF00FB058A /* MyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		68D8034826B4360600B25455 /* Pryaniky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pryaniky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68D8034B26B4360600B25455 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68D8034F26B4360600B25455 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 				688F86BB26B5854400DF60C5 /* ViewExtention.swift */,
 				688F86C326B6D19F00DF60C5 /* MyImageView.swift */,
 				688F86C526B6E92F00DF60C5 /* MyPickerView.swift */,
+				68B76E3926BB10FF00FB058A /* MyLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -90,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				68D8034F26B4360600B25455 /* ViewController.swift */,
+				68B76E3526BA8E1400FB058A /* TableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -251,8 +257,10 @@
 				688F86B926B575FB00DF60C5 /* ApiWorking.swift in Sources */,
 				688F86C426B6D1A000DF60C5 /* MyImageView.swift in Sources */,
 				688F86B626B56F1500DF60C5 /* JsonModel.swift in Sources */,
+				68B76E3626BA8E1400FB058A /* TableViewCell.swift in Sources */,
 				68D8035026B4360600B25455 /* ViewController.swift in Sources */,
 				688F86C626B6E92F00DF60C5 /* MyPickerView.swift in Sources */,
+				68B76E3A26BB10FF00FB058A /* MyLabel.swift in Sources */,
 				688F86BC26B5854400DF60C5 /* ViewExtention.swift in Sources */,
 				688F86B426B55EB000DF60C5 /* MoyaService.swift in Sources */,
 				68D8034C26B4360600B25455 /* AppDelegate.swift in Sources */,

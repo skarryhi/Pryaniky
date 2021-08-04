@@ -10,4 +10,6 @@ import UIKit
 
 class MyImageView: UIImageView {
     var imageURL: String?
+    var sectionName: String?
+    var text: String?
 }

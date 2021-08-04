@@ -15,14 +15,17 @@ extension UserService: TargetType {
     var baseURL: URL {
         switch self {
         case .getUser:
-            return URL(string: "https://pryaniky.com")!
+//            return URL(string: "https://global-exchange.store/test.json")!
+//            return URL(string: "https://pryaniky.com")!
+            return URL(string: "https://pryaniky.com/static/json/much-more-items-in-data.json")!
         }
     }
     
     var path: String {
         switch self {
         case .getUser:
-            return "/static/json/sample.json"
+            return ""
+//            return "/static/json/sample.json"
         }
     }
     
