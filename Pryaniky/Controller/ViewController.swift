@@ -17,7 +17,7 @@ final class ViewController: UITableViewController {
     private var JsonModel: JsonModel?
     private var views = [String : [UIView]]()
     private var viewsOrder = [UIView]()
-    private var pickersData = [UIPickerView : [(Int, String)]]()
+    private var pickersData = [UIPickerView : PickersData]()
     
     private let height = UIScreen.main.bounds.height
     private let width = UIScreen.main.bounds.width
@@ -36,6 +36,11 @@ final class ViewController: UITableViewController {
     
     // MARK : - TableView
     
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewsOrder.count
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let obj = viewsOrder[indexPath.row]
         switch obj {
@@ -52,31 +57,36 @@ final class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if viewsOrder[indexPath.row] is MyPickerView {
-            self.tableView.reloadData()
-        }
+//        if viewsOrder[indexPath.row] is MyPickerView {
+//            (viewsOrder[indexPath.row] as! UIPickerView).reloadAllComponents()
+//        }
         self.tableView.deselectRow(at: indexPath, animated: true)
-        var viewName = String()
+        var viewName = "View name: "
+        var data = ""
         let obj = viewsOrder[indexPath.row]
         switch obj {
         case is MyLabel:
             viewName += (obj as! MyLabel).sectionName!
         case is MyImageView:
-            viewName += (obj as! MyImageView).sectionName!
+            let iv = obj as! MyImageView
+            viewName += iv.sectionName!
+            data += "Image text: \(iv.text ?? "")"
         case is MyPickerView:
-            viewName += (obj as! MyPickerView).sectionName!
+            let pv = obj as! MyPickerView
+            viewName += pv.sectionName!
+            print(indexPath.row)
+            tableView.allowsSelectionDuringEditing = false
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? TableViewCell,
+                let id = pickersData[cell.picker]?.selectedID else {break}
+            data = "SelectedID: \(id)"
         default:
             break
         }
-        let alert = UIAlertController(title: "View name:", message: viewName, preferredStyle: .alert)
+        let alert = UIAlertController(title: viewName, message: data, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
     
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewsOrder.count
-    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = TableViewCell(style: .default, reuseIdentifier: "Cell")
@@ -95,20 +105,12 @@ final class ViewController: UITableViewController {
         case is MyPickerView:
             cell.picker.isHidden = false
             let oldPV = viewsOrder[indexPath.row] as! MyPickerView
-            pickersData[cell.picker] = oldPV.variants
+            let pd = PickersData(variants: oldPV.variants, selectedID: oldPV.selectedId, selectedIndex: oldPV.selectedIndex)
+            pickersData[cell.picker] = pd
             cell.picker.delegate = self
             cell.picker.dataSource = self
-            if let selected = oldPV.selectedId {
-                for index in 0..<oldPV.variants.count {
-                    if selected == oldPV.variants[index].0 {
-                        cell.picker.selectRow(index, inComponent: 0, animated: true)
-                        break
-                    }
-                }
-                
-            }
-            cell.addSubview(cell.picker)
-            
+            guard let selected = oldPV.selectedIndex else { break }
+            cell.picker.selectRow(selected, inComponent: 0, animated: true)
         default:
             break
         }
@@ -128,9 +130,6 @@ extension ViewController: ApiManagerDelegate {
         tableView.reloadData()
     }
     
-
-    
-    
     private func createViews() {
         JsonModel?.data.forEach({
             if let url = $0.data.url {
@@ -143,22 +142,29 @@ extension ViewController: ApiManagerDelegate {
                 } else {
                     views[$0.name] = [imageView]
                 }
-            } else if let selectedId = $0.data.selectedId {
+            } else if let variants = $0.data.variants {
                 let pickerView = MyPickerView()
                 pickerView.sectionName = $0.name
-                $0.data.variants?.forEach({ variant in
+                variants.forEach({ variant in
                     pickerView.variants.append((variant.id, variant.text))
                 })
-                pickerView.selectedId = selectedId
+                if let selected = $0.data.selectedId {
+                    for index in 0..<pickerView.variants.count {
+                        guard selected == pickerView.variants[index].0 else { continue }
+                        pickerView.selectedIndex = index
+                        pickerView.selectedId = selected
+                        break
+                    }
+                }
                 if var _ = views[$0.name] {
                     views[$0.name]!.append(pickerView)
                 } else {
                     views[$0.name] = [pickerView]
                 }
-            } else {
+            } else if let text = $0.data.text {
                 let label = MyLabel()
                 label.sectionName = $0.name
-                label.text = $0.data.text
+                label.text = text
                 if var _ = views[$0.name] {
                     views[$0.name]!.append(label)
                 } else {
@@ -174,7 +180,6 @@ extension ViewController: ApiManagerDelegate {
                 view.forEach { item in
                     viewsOrder.append(item)
                 }
-                
             }
         })
     }
@@ -191,15 +196,16 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickersData[pickerView]?.count ?? 0
+        return pickersData[pickerView]?.variants.count ?? 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let str = "\(pickersData[pickerView]![row].1)"
+        let str = "\(pickersData[pickerView]!.variants[row].1)"
         return str
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(#function)
+        pickersData[pickerView]?.selectedIndex = row
+        pickersData[pickerView]!.selectedID = pickersData[pickerView]?.variants[row].0
     }
 }

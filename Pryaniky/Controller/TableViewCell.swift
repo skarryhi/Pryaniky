@@ -40,7 +40,7 @@ class TableViewCell: UITableViewCell {
                                               height: height * 0.28))
         pick.isHidden = true
         
-//        addSubview(pick)
+        addSubview(pick)
         return pick
     }()
     

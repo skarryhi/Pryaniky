@@ -11,5 +11,6 @@ import UIKit
 class MyPickerView: UIPickerView {
     var variants = [(Int, String)]()
     var selectedId: Int?
+    var selectedIndex: Int?
     var sectionName: String?
 }
