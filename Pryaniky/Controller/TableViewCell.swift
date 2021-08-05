@@ -34,15 +34,16 @@ class TableViewCell: UITableViewCell {
     }()
     
     lazy var picker: UIPickerView = {
-        let pick = UIPickerView(frame: CGRect(x: width * 0.02,
+        let pick = UIPickerView(frame: CGRect(x: width * 0.15,
                                               y: height * 0.01,
-                                              width: width * 0.96,
+                                              width: width * 0.7,
                                               height: height * 0.28))
         pick.isHidden = true
         
-        addSubview(pick)
+        contentView.addSubview(pick)
         return pick
     }()
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
