@@ -18,8 +18,11 @@ final class ViewController: UITableViewController {
     private var views = [String : [UIView]]()
     private var viewsOrder = [UIView]()
     private var viewsToLoad = [UIView]()
-    private var portion = 10
+    private var loadPortion = 10
+    private var additionalLoadingIsAllowed = false
+    
     private var pickersData = [UIPickerView : PickersData]()
+    private var cashedCells = [Int : TableViewCell]()
     
     private let height = UIScreen.main.bounds.height
     private let width = UIScreen.main.bounds.width
@@ -43,6 +46,20 @@ final class ViewController: UITableViewController {
         return viewsToLoad.count
     }
     
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == viewsToLoad.count &&
+            viewsOrder.count != 0 {
+            if additionalLoadingIsAllowed {
+                print(#function)
+                addViewsToLoad()
+                tableView.reloadData()
+            } else {
+                additionalLoadingIsAllowed = true
+            }
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let obj = viewsToLoad[indexPath.row]
         switch obj {
@@ -56,6 +73,38 @@ final class ViewController: UITableViewController {
             break
         }
         return height * 0.1
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard cashedCells[indexPath.row] == nil else { return cashedCells[indexPath.row]! }
+        
+        let cell = TableViewCell(style: .default, reuseIdentifier: "Cell")
+        switch viewsToLoad[indexPath.row] {
+        case is MyLabel:
+            let oldLabel = viewsToLoad[indexPath.row] as! UILabel
+            cell.label.text = oldLabel.text
+            
+        case is MyImageView:
+            let imageURL = (viewsToLoad[indexPath.row] as! MyImageView).imageURL
+            apiManager.downloadImages(imageURL: imageURL!) { image in
+                cell.image.image = image
+            }
+            
+        case is MyPickerView:
+            cell.picker.isHidden = false
+            let oldPV = viewsToLoad[indexPath.row] as! MyPickerView
+            let pd = PickersData(variants: oldPV.variants, selectedID: oldPV.selectedId, selectedIndex: oldPV.selectedIndex)
+            pickersData[cell.picker] = pd
+            cell.picker.delegate = self
+            cell.picker.dataSource = self
+            guard let selected = oldPV.selectedIndex else { break }
+            cell.picker.selectRow(selected, inComponent: 0, animated: true)
+        default:
+            break
+        }
+        cashedCells[indexPath.row] = cell        
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -83,37 +132,6 @@ final class ViewController: UITableViewController {
         let alert = UIAlertController(title: viewName, message: data, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = TableViewCell(style: .default, reuseIdentifier: "Cell")
-        
-        switch viewsToLoad[indexPath.row] {
-        case is MyLabel:
-            let oldLabel = viewsToLoad[indexPath.row] as! UILabel
-            cell.label.text = oldLabel.text
-            
-        case is MyImageView:
-            let imageURL = (viewsToLoad[indexPath.row] as! MyImageView).imageURL
-            apiManager.downloadImages(imageURL: imageURL!) { image in
-                cell.image.image = image
-            }
-            
-        case is MyPickerView:
-            cell.picker.isHidden = false
-            let oldPV = viewsToLoad[indexPath.row] as! MyPickerView
-            let pd = PickersData(variants: oldPV.variants, selectedID: oldPV.selectedId, selectedIndex: oldPV.selectedIndex)
-            pickersData[cell.picker] = pd
-            cell.picker.delegate = self
-            cell.picker.dataSource = self
-            guard let selected = oldPV.selectedIndex else { break }
-            cell.picker.selectRow(selected, inComponent: 0, animated: true)
-        default:
-            break
-        }
-        
-        return cell
     }
 }
 
@@ -184,12 +202,13 @@ extension ViewController: ApiManagerDelegate {
     }
     
     private func addViewsToLoad() {
-        for _ in 0..<portion {
+        for _ in 0..<loadPortion {
             if let item = viewsOrder.first {
                 viewsToLoad.append(item)
                 viewsOrder.remove(at: 0)
             } else { break }
         }
+        additionalLoadingIsAllowed = false
     }
 }
 
