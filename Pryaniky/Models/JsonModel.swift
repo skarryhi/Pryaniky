@@ -17,6 +17,8 @@ struct Information: Decodable {
     let url: String?
     let selectedId: Int?
     let variants: [Variants]?
+    let coverUrl: String?
+    let mediaUrl: String?
 }
 
 struct Block: Decodable {

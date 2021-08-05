@@ -17,7 +17,8 @@ extension UserService: TargetType {
         case .getUser:
 //            return URL(string: "https://global-exchange.store/test.json")!
 //            return URL(string: "https://pryaniky.com")!
-            return URL(string: "https://pryaniky.com/static/json/much-more-items-in-data.json")!
+//            return URL(string: "https://pryaniky.com/static/json/much-more-items-in-data.json")!
+        return URL(string: "https://pryaniky.com/static/json/custom-data-in-view.json")!
         }
     }
     

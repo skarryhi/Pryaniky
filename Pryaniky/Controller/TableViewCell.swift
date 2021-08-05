@@ -6,11 +6,31 @@
 //
 
 import UIKit
+import AVKit
 
 class TableViewCell: UITableViewCell {
     
     private let height = UIScreen.main.bounds.height
     private let width = UIScreen.main.bounds.width
+    
+    var mediaUrl: URL?
+    var playerLayer: AVPlayerLayer?
+    var player: AVPlayer?
+    
+    var playButton: MyPlayButton? {
+        didSet {
+            playButton!.isHidden = true
+            contentView.addSubview(playButton!)
+        }
+    }
+    
+    lazy var media: UIView = {
+        let view = UIView(frame: CGRect(x: 0,
+                                        y: 0,
+                                        width: width,
+                                        height: width * 0.6))
+        return view
+    }()
     
     lazy var label: UILabel = {
         let lbl = UILabel(frame: CGRect(x: width * 0.02,
@@ -30,6 +50,7 @@ class TableViewCell: UITableViewCell {
                                             width: width * 0.6,
                                             height: width * 0.56))
         addSubview(img)
+        addSubview(media)
         return img
     }()
     
@@ -43,36 +64,5 @@ class TableViewCell: UITableViewCell {
         contentView.addSubview(pick)
         return pick
     }()
-    
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-    }
-    
-    func setupConstraints(_ myView: UIView) {
-        myView.anchor(top:  topAnchor,
-                            left: leftAnchor,
-                            bottom: bottomAnchor,
-                            right: rightAnchor,
-                            paddingTop: height * 0.01,
-                            paddingLeft: width * 0.2,
-                            paddingBottom: height * 0.01,
-                            paddingRight: width * 0.2)
-    }
 
 }

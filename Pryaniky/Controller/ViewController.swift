@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 protocol ApiManagerDelegate {
     func updateData(_ loadedUser: JsonModel)
@@ -18,7 +19,7 @@ final class ViewController: UITableViewController {
     private var views = [String : [UIView]]()
     private var viewsOrder = [UIView]()
     private var viewsToLoad = [UIView]()
-    private var loadPortion = 10
+    private var loadPortion = 5
     private var additionalLoadingIsAllowed = false
     
     private var pickersData = [UIPickerView : PickersData]()
@@ -34,13 +35,31 @@ final class ViewController: UITableViewController {
         
         apiManager.delegate = self
         apiManager.loadingData()
+        
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.separatorStyle = .none
     }
     
     
     // MARK : - TableView
-
+    
+    @objc func buttonAction(sender: UIButton!) {
+        let but = sender as! MyPlayButton
+        let cell = tableView.cellForRow(at: but.cellIndex) as! TableViewCell
+        guard !but.isPlayed else {
+            but.isPlayed = false
+            cell.player?.pause()
+            return
+        }
+        if cell.player == nil {
+            cell.player = AVPlayer(url: cell.mediaUrl!)
+            let playerLayer = AVPlayerLayer(player: cell.player)
+            playerLayer.frame = cell.media.frame
+            cell.media.layer.addSublayer(playerLayer)
+        }
+        cell.player!.play()
+        but.isPlayed = true
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewsToLoad.count
@@ -51,7 +70,6 @@ final class ViewController: UITableViewController {
         if indexPath.row + 1 == viewsToLoad.count &&
             viewsOrder.count != 0 {
             if additionalLoadingIsAllowed {
-                print(#function)
                 addViewsToLoad()
                 tableView.reloadData()
             } else {
@@ -74,7 +92,7 @@ final class ViewController: UITableViewController {
         }
         return height * 0.1
     }
-    
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard cashedCells[indexPath.row] == nil else { return cashedCells[indexPath.row]! }
@@ -86,11 +104,23 @@ final class ViewController: UITableViewController {
             cell.label.text = oldLabel.text
             
         case is MyImageView:
-            let imageURL = (viewsToLoad[indexPath.row] as! MyImageView).imageURL
-            apiManager.downloadImages(imageURL: imageURL!) { image in
-                cell.image.image = image
-            }
+            let iv = viewsToLoad[indexPath.row] as! MyImageView
+            var url: String?
             
+            if let media = iv.mediaUrl {
+                cell.mediaUrl = URL(string: media)
+            }
+            if iv.mediaUrl != nil {
+                cell.playButton = MyPlayButton(frame: cell.image.frame, cell: indexPath)
+                cell.playButton!.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+            }
+            url = iv.coverUrl != nil ? iv.coverUrl : iv.imageURL
+            apiManager.downloadImages(imageURL: url!) { image in
+                cell.image.image = image
+                if cell.playButton != nil {
+                    cell.playButton?.isHidden = false
+                }
+            }
         case is MyPickerView:
             cell.picker.isHidden = false
             let oldPV = viewsToLoad[indexPath.row] as! MyPickerView
@@ -103,7 +133,7 @@ final class ViewController: UITableViewController {
         default:
             break
         }
-        cashedCells[indexPath.row] = cell        
+        cashedCells[indexPath.row] = cell
         return cell
     }
     
@@ -118,7 +148,7 @@ final class ViewController: UITableViewController {
         case is MyImageView:
             let iv = obj as! MyImageView
             viewName += iv.sectionName!
-            data += "Image text: \(iv.text ?? "")"
+            data += "Text: \(iv.text ?? "")"
         case is MyPickerView:
             let pv = obj as! MyPickerView
             viewName += pv.sectionName!
@@ -149,9 +179,11 @@ extension ViewController: ApiManagerDelegate {
     
     private func createViews() {
         JsonModel?.data.forEach({
-            if let url = $0.data.url {
+            if $0.data.url != nil || $0.data.coverUrl != nil {
                 let imageView = MyImageView()
-                imageView.imageURL = url
+                imageView.imageURL = $0.data.url
+                imageView.coverUrl = $0.data.coverUrl
+                imageView.mediaUrl = $0.data.mediaUrl
                 imageView.sectionName = $0.name
                 imageView.text = $0.data.text
                 if var _ = views[$0.name] {
