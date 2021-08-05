@@ -67,6 +67,35 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		6856A75B26BC3B56009AE74C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				68B76E3526BA8E1400FB058A /* TableViewCell.swift */,
+				68B76E3926BB10FF00FB058A /* MyLabel.swift */,
+				6856A75C26BC3BBB009AE74C /* ImageView */,
+				6856A75D26BC3BD5009AE74C /* PickerView */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6856A75C26BC3BBB009AE74C /* ImageView */ = {
+			isa = PBXGroup;
+			children = (
+				688F86C326B6D19F00DF60C5 /* MyImageView.swift */,
+				6856A75926BC1EF9009AE74C /* MyPlayButton.swift */,
+			);
+			path = ImageView;
+			sourceTree = "<group>";
+		};
+		6856A75D26BC3BD5009AE74C /* PickerView */ = {
+			isa = PBXGroup;
+			children = (
+				688F86C526B6E92F00DF60C5 /* MyPickerView.swift */,
+				68B76E3B26BB390A00FB058A /* PickersData.swift */,
+			);
+			path = PickerView;
+			sourceTree = "<group>";
+		};
 		688F86B726B575B700DF60C5 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,10 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				688F86BB26B5854400DF60C5 /* ViewExtention.swift */,
-				688F86C326B6D19F00DF60C5 /* MyImageView.swift */,
-				688F86C526B6E92F00DF60C5 /* MyPickerView.swift */,
-				6856A75926BC1EF9009AE74C /* MyPlayButton.swift */,
-				68B76E3926BB10FF00FB058A /* MyLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -100,8 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				68D8034F26B4360600B25455 /* ViewController.swift */,
-				68B76E3526BA8E1400FB058A /* TableViewCell.swift */,
-				68B76E3B26BB390A00FB058A /* PickersData.swift */,
+				6856A75B26BC3B56009AE74C /* View */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

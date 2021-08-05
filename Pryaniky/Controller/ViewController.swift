@@ -43,7 +43,7 @@ final class ViewController: UITableViewController {
     
     // MARK : - TableView
     
-    @objc func buttonAction(sender: UIButton!) {
+    @objc func playAndPauseMedia(sender: UIButton!) {
         let but = sender as! MyPlayButton
         let cell = tableView.cellForRow(at: but.cellIndex) as! TableViewCell
         guard !but.isPlayed else {
@@ -96,8 +96,8 @@ final class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard cashedCells[indexPath.row] == nil else { return cashedCells[indexPath.row]! }
-        
         let cell = TableViewCell(style: .default, reuseIdentifier: "Cell")
+        
         switch viewsToLoad[indexPath.row] {
         case is MyLabel:
             let oldLabel = viewsToLoad[indexPath.row] as! UILabel
@@ -107,12 +107,10 @@ final class ViewController: UITableViewController {
             let iv = viewsToLoad[indexPath.row] as! MyImageView
             var url: String?
             
-            if let media = iv.mediaUrl {
-                cell.mediaUrl = URL(string: media)
-            }
+            if let media = iv.mediaUrl { cell.mediaUrl = URL(string: media) }
             if iv.mediaUrl != nil {
                 cell.playButton = MyPlayButton(frame: cell.image.frame, cell: indexPath)
-                cell.playButton!.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+                cell.playButton!.addTarget(self, action: #selector(playAndPauseMedia), for: .touchUpInside)
             }
             url = iv.coverUrl != nil ? iv.coverUrl : iv.imageURL
             apiManager.downloadImages(imageURL: url!) { image in
@@ -130,9 +128,11 @@ final class ViewController: UITableViewController {
             cell.picker.dataSource = self
             guard let selected = oldPV.selectedIndex else { break }
             cell.picker.selectRow(selected, inComponent: 0, animated: true)
+            
         default:
             break
         }
+        
         cashedCells[indexPath.row] = cell
         return cell
     }
